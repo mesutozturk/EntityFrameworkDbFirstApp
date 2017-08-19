@@ -46,6 +46,7 @@
             this.cbSatistaDegilMi = new System.Windows.Forms.CheckBox();
             this.nStok = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
+            this.btnUrunEkle = new System.Windows.Forms.Button();
             this.cmsSil.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nFiyat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nStok)).BeginInit();
@@ -139,6 +140,7 @@
             // 
             // lstUrunler
             // 
+            this.lstUrunler.ContextMenuStrip = this.cmsSil;
             this.lstUrunler.FormattingEnabled = true;
             this.lstUrunler.Location = new System.Drawing.Point(379, 10);
             this.lstUrunler.Name = "lstUrunler";
@@ -159,11 +161,6 @@
             this.nFiyat.Location = new System.Drawing.Point(626, 39);
             this.nFiyat.Maximum = new decimal(new int[] {
             9999,
-            0,
-            0,
-            0});
-            this.nFiyat.Minimum = new decimal(new int[] {
-            1,
             0,
             0,
             0});
@@ -216,11 +213,22 @@
             this.label5.TabIndex = 7;
             this.label5.Text = "Stok";
             // 
+            // btnUrunEkle
+            // 
+            this.btnUrunEkle.Location = new System.Drawing.Point(626, 125);
+            this.btnUrunEkle.Name = "btnUrunEkle";
+            this.btnUrunEkle.Size = new System.Drawing.Size(120, 23);
+            this.btnUrunEkle.TabIndex = 13;
+            this.btnUrunEkle.Text = "Ekle";
+            this.btnUrunEkle.UseVisualStyleBackColor = true;
+            this.btnUrunEkle.Click += new System.EventHandler(this.btnUrunEkle_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(798, 357);
+            this.Controls.Add(this.btnUrunEkle);
             this.Controls.Add(this.nStok);
             this.Controls.Add(this.cbSatistaDegilMi);
             this.Controls.Add(this.nFiyat);
@@ -266,6 +274,7 @@
         private System.Windows.Forms.CheckBox cbSatistaDegilMi;
         private System.Windows.Forms.NumericUpDown nStok;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnUrunEkle;
     }
 }
 

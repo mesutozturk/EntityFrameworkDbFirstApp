@@ -21,9 +21,9 @@ namespace EntityFrameworkDbFirstApp
         {
             NorthwindEntities db = new NorthwindEntities();
             List<Category> kategoriler = db.Categories.OrderBy(x => x.CategoryName).ToList();
-            lstKategoriler.DataSource = kategoriler;
             lstKategoriler.DisplayMember = "CategoryName";
             lstKategoriler.ValueMember = "CategoryID";
+            lstKategoriler.DataSource = kategoriler;
         }
 
         private void btnEkle_Click(object sender, EventArgs e)
@@ -47,8 +47,10 @@ namespace EntityFrameworkDbFirstApp
         }
 
         private Category seciliCategory;
+        private ListBox seciListBox;
         private void silToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (seciListBox == lstKategoriler) { 
             if (lstKategoriler.SelectedItem == null) return;
             try
             {
@@ -72,6 +74,28 @@ namespace EntityFrameworkDbFirstApp
             catch (Exception ex)
             {
                 MessageBox.Show("Kategori silme işlemi başarısız. " + ex.Message);
+            }
+            }else if (seciListBox == lstUrunler)
+            {
+                if(lstUrunler.SelectedItem==null) return;
+                try
+                {
+                    NorthwindEntities db= new NorthwindEntities();
+                    seciliProduct = db.Products.Find(seciliProduct.ProductID);
+                    if (seciliProduct == null)
+                    {
+                        MessageBox.Show("Silinecek ürün bulunamadı");
+                        return;
+                    }
+                    db.Products.Remove(seciliProduct);
+                    db.SaveChanges();
+                    lstKategoriler.DataSource = db.Categories.OrderBy(x => x.CategoryName).ToList();
+                    MessageBox.Show("Ürün silme işlemi başarılı");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ürün silme işlemi başarısız");
+                }
             }
         }
 
@@ -120,10 +144,10 @@ namespace EntityFrameworkDbFirstApp
             seciliCategory = lstKategoriler.SelectedItem as Category;
             txtAciklama.Text = seciliCategory?.Description;
             txtKategoriAdi.Text = seciliCategory?.CategoryName;
-
+            seciListBox = lstKategoriler;
             List<Product> urunler = seciliCategory?.Products.ToList();
-            lstUrunler.DataSource = urunler;
             lstUrunler.DisplayMember = "ProductName";
+            lstUrunler.DataSource = urunler;
         }
 
         private Product seciliProduct;
@@ -135,6 +159,30 @@ namespace EntityFrameworkDbFirstApp
             nFiyat.Value = (seciliProduct.UnitPrice.HasValue ? seciliProduct.UnitPrice.Value : 0);
             nStok.Value = (seciliProduct.UnitsInStock.HasValue ? seciliProduct.UnitsInStock.Value : 0);
             cbSatistaDegilMi.Checked = seciliProduct.Discontinued;
+            seciListBox = lstUrunler;
+        }
+
+        private void btnUrunEkle_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                NorthwindEntities db =new NorthwindEntities();
+                db.Products.Add(new Product()
+                {
+                    Discontinued = cbSatistaDegilMi.Checked,
+                    ProductName = txtUrunAdi.Text,
+                    UnitPrice = nFiyat.Value,
+                    UnitsInStock = Convert.ToInt16(nStok.Value),
+                    CategoryID = seciliCategory.CategoryID
+                });
+                db.SaveChanges();
+                lstKategoriler.DataSource = db.Categories.OrderBy(x => x.CategoryName).ToList();
+                MessageBox.Show("Ürün ekleme işleminiz başarılı");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ürün ekleme işleminiz başarısız "+ex.Message);
+            }
         }
     }
     public class Armut
