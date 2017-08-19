@@ -47,6 +47,8 @@
             this.nStok = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.btnUrunEkle = new System.Windows.Forms.Button();
+            this.btnUrunGuncelle = new System.Windows.Forms.Button();
+            this.txtKategoriAra = new System.Windows.Forms.TextBox();
             this.cmsSil.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nFiyat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nStok)).BeginInit();
@@ -56,9 +58,9 @@
             // 
             this.lstKategoriler.ContextMenuStrip = this.cmsSil;
             this.lstKategoriler.FormattingEnabled = true;
-            this.lstKategoriler.Location = new System.Drawing.Point(13, 13);
+            this.lstKategoriler.Location = new System.Drawing.Point(13, 39);
             this.lstKategoriler.Name = "lstKategoriler";
-            this.lstKategoriler.Size = new System.Drawing.Size(136, 316);
+            this.lstKategoriler.Size = new System.Drawing.Size(136, 290);
             this.lstKategoriler.TabIndex = 0;
             this.lstKategoriler.SelectedIndexChanged += new System.EventHandler(this.lstKategoriler_SelectedIndexChanged);
             // 
@@ -223,11 +225,31 @@
             this.btnUrunEkle.UseVisualStyleBackColor = true;
             this.btnUrunEkle.Click += new System.EventHandler(this.btnUrunEkle_Click);
             // 
+            // btnUrunGuncelle
+            // 
+            this.btnUrunGuncelle.Location = new System.Drawing.Point(626, 189);
+            this.btnUrunGuncelle.Name = "btnUrunGuncelle";
+            this.btnUrunGuncelle.Size = new System.Drawing.Size(120, 23);
+            this.btnUrunGuncelle.TabIndex = 14;
+            this.btnUrunGuncelle.Text = "Güncelle";
+            this.btnUrunGuncelle.UseVisualStyleBackColor = true;
+            this.btnUrunGuncelle.Click += new System.EventHandler(this.btnUrunGuncelle_Click);
+            // 
+            // txtKategoriAra
+            // 
+            this.txtKategoriAra.Location = new System.Drawing.Point(13, 5);
+            this.txtKategoriAra.Name = "txtKategoriAra";
+            this.txtKategoriAra.Size = new System.Drawing.Size(136, 20);
+            this.txtKategoriAra.TabIndex = 15;
+            this.txtKategoriAra.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtKategoriAra_KeyUp);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(798, 357);
+            this.Controls.Add(this.txtKategoriAra);
+            this.Controls.Add(this.btnUrunGuncelle);
             this.Controls.Add(this.btnUrunEkle);
             this.Controls.Add(this.nStok);
             this.Controls.Add(this.cbSatistaDegilMi);
@@ -275,6 +297,8 @@
         private System.Windows.Forms.NumericUpDown nStok;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnUrunEkle;
+        private System.Windows.Forms.Button btnUrunGuncelle;
+        private System.Windows.Forms.TextBox txtKategoriAra;
     }
 }
 
