@@ -8,6 +8,15 @@
         <EntityTypeShape EntityType="NorthwindModel.Category" Width="1.5" PointX="0.875" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="NorthwindModel.Product" Width="1.5" PointX="5.375" PointY="0.5" />
         <AssociationConnector Association="NorthwindModel.FK_Products_Categories" />
+        <EntityTypeShape EntityType="NorthwindModel.Customer" Width="1.5" PointX="0.75" PointY="5.5" />
+        <EntityTypeShape EntityType="NorthwindModel.Employee" Width="1.5" PointX="0.75" PointY="9.625" />
+        <EntityTypeShape EntityType="NorthwindModel.Order_Detail" Width="1.5" PointX="8" PointY="3.75" />
+        <EntityTypeShape EntityType="NorthwindModel.Order" Width="1.5" PointX="3.875" PointY="4.625" />
+        <AssociationConnector Association="NorthwindModel.FK_Orders_Customers" />
+        <AssociationConnector Association="NorthwindModel.FK_Employees_Employees" />
+        <AssociationConnector Association="NorthwindModel.FK_Orders_Employees" />
+        <AssociationConnector Association="NorthwindModel.FK_Order_Details_Orders" />
+        <AssociationConnector Association="NorthwindModel.FK_Order_Details_Products" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
