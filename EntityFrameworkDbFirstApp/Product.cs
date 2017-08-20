@@ -16,7 +16,7 @@ namespace EntityFrameworkDbFirstApp
     {
         public int ProductID { get; set; }
         public string ProductName { get; set; }
-        public int? SupplierID { get; set; }
+        public Nullable<int> SupplierID { get; set; }
         public Nullable<int> CategoryID { get; set; }
         public string QuantityPerUnit { get; set; }
         public Nullable<decimal> UnitPrice { get; set; }
