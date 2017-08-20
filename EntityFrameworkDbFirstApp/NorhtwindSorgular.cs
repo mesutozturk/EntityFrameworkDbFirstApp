@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using EntityFrameworkDbFirstApp.ViewModels;
+using System;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using EntityFrameworkDbFirstApp.ViewModels;
 
 namespace EntityFrameworkDbFirstApp
 {
@@ -147,6 +141,76 @@ namespace EntityFrameworkDbFirstApp
                              KategoriAdi = kat.CategoryName
                          };
             dataGridView1.DataSource = sorgu6.ToList();
+
+            //Siparişlerde toplam ne kadar kargo ücreti ödenmiş?
+            this.Text = $"Toplam {db.Orders.Sum(x => x.Freight):c2} Kargo ödemesi yapıldı!";
+            this.Text = $"Ortalama {db.Orders.Average(x => x.Freight):c2} Kargo ödemesi yapıldı!";
+            this.Text = $"Max {db.Orders.Max(x => x.Freight):c2} Kargo ödemesi yapıldı!";
+            this.Text = $"Min {db.Orders.Min(x => x.Freight):c2} Kargo ödemesi yapıldı!";
+
+
+            //sipariş no - toplam sipariş tutarı
+            //SELECT o.OrderID,SUM(od.UnitPrice * od.Quantity) Toplam FROM dbo.Orders o
+            //JOIN dbo.[Order Details] od ON od.OrderID=o.OrderID
+            //GROUP BY o.OrderID
+            //    ORDER BY Toplam desc
+            var sorgu8 = from siparis in db.Orders
+                         join sdetay in db.Order_Details
+                         on siparis.OrderID equals sdetay.OrderID
+                         where siparis.OrderDate.Value.Year == 1996
+                         group new
+                         {
+                             siparis,
+                             sdetay
+                         } by new
+                         {
+                             siparisId = siparis.OrderID
+                         }
+                into siparisIdler
+                         select new
+                         {
+                             SiparisId = siparisIdler.Key.siparisId,
+                             Toplam = siparisIdler.Sum(x => (x.sdetay.UnitPrice * x.sdetay.Quantity))
+                         };
+
+            dataGridView1.DataSource = sorgu8.OrderByDescending(x => x.Toplam).ToList();
+
+            var sorgu9 = db.Orders.Where(x => x.OrderDate.Value.Year == 1996).GroupBy(x => new { x, x.OrderID }).Select(x => new
+            {
+                ID = x.Key.OrderID,
+                Toplam = x.Key.x.Order_Details.Sum(y => y.UnitPrice * y.Quantity)
+            }).OrderByDescending(x => x.Toplam).ToList();
+
+            dataGridView1.DataSource = sorgu9;
+
+            var sorgu10 = from siparisdetay in db.Order_Details
+                          join urun in db.Products
+                          on siparisdetay.ProductID equals urun.ProductID
+                          join kategori in db.Categories
+                          on urun.CategoryID equals kategori.CategoryID
+                          join siparis in db.Orders
+                          on siparisdetay.OrderID equals siparis.OrderID
+                          group new
+                          {
+                              kategori,
+                              urun,
+                              siparisdetay
+                          } by new
+                          {
+                              kadi = kategori.CategoryName,
+                              uadi = urun.ProductName
+                          }
+                into kategoriurungrup
+                          select new
+                          {
+                              KategoriAdi = kategoriurungrup.Key.kadi,
+                              UrunAdi = kategoriurungrup.Key.uadi,
+                              Toplam = kategoriurungrup.Sum(x => x.siparisdetay.Quantity * x.siparisdetay.UnitPrice)
+                          };
+            dataGridView1.DataSource = sorgu10
+                .OrderBy(x => x.KategoriAdi)
+                .ThenByDescending(x => x.Toplam)
+                .ToList();
         }
     }
 }
